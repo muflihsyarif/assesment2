@@ -1,4 +1,4 @@
-package com.muflihsyarif0023.assesment2.ui.theme
+package assesment2.ui.theme
 
 import android.app.Activity
 import android.os.Build

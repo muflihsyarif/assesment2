@@ -1,4 +1,4 @@
-package com.muflihsyarif0023.assesment2
+package assesment2
 
 import org.junit.Test
 
