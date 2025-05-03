@@ -1,4 +1,16 @@
 package assesment2.ui.screen
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+import assesment2.model.Mimpi
+
+class MainViewModel : ViewModel() {
+    val data = listOf(
+        Mimpi(
+            1,
+            "",
+            "",
+            "",
+            ""
+        )
+    )
 }
