@@ -7,10 +7,10 @@ class MainViewModel : ViewModel() {
     val data = listOf(
         Mimpi(
             1,
-            "",
-            "",
-            "",
-            ""
+            "gvbhn",
+            "fdgbhjn",
+            "xcvhb",
+            " gvhbjnk"
         )
     )
 }
