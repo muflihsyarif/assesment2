@@ -13,4 +13,7 @@ class MainViewModel : ViewModel() {
             " gvhbjnk"
         )
     )
+    fun getCatatan(id: Long): Mimpi? {
+        return data.find { it.id == id }
+    }
 }
