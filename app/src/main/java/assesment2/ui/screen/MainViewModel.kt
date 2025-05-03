@@ -15,7 +15,4 @@ class MainViewModel (dao: MimpiDao): ViewModel() {
         started = SharingStarted.WhileSubscribed(),
         initialValue = emptyList()
     )
-    fun getMimpi(id: Long): Mimpi? {
-        return data.value.find { it.id == id }
-    }
 }
