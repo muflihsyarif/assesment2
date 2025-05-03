@@ -25,7 +25,19 @@ class DetailViewModel(private val dao: MimpiDao): ViewModel() {
             dao.insert(mimpi)
         }
     }
-    fun getMimpii(id: Long): Mimpi? {
-        return null
+    suspend fun getMimpii(id: Long): Mimpi? {
+        return dao.getMimpiByid(id)
+    }
+    fun update(id: Long, judul: String, isi: String, suasana: String){
+        val mimpi = Mimpi(
+            id = id,
+            tanggal = formatter.format(Date()),
+            judul = judul,
+            mimpi = isi,
+            suasana = suasana
+        )
+        viewModelScope.launch (Dispatchers.IO){
+            dao.update(mimpi)
+        }
     }
 }

@@ -18,4 +18,7 @@ interface MimpiDao {
 
     @Query("SELECT * FROM mimpi ORDER BY tanggal DESC")
     fun getMimpi(): Flow<List<Mimpi>>
+
+    @Query("SELECT * FROM mimpi WHERE id = :id")
+    suspend fun getMimpiByid(id: Long): Mimpi?
 }
