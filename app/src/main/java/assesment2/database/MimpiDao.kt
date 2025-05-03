@@ -17,5 +17,5 @@ interface MimpiDao {
     suspend fun update(mimpi: Mimpi)
 
     @Query("SELECT * FROM mimpi ORDER BY tanggal DESC")
-    fun getCatatan(): Flow<List<Mimpi>>
+    fun getMimpi(): Flow<List<Mimpi>>
 }

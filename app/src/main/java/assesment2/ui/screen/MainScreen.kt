@@ -23,6 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import assesment2.model.Mimpi
 import assesment2.navigation.Screen
 import assesment2.ui.theme.Assesment2Theme
+import assesment2.util.ViewModelFactory
 import com.muflihsyarif0023.assesment2.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,8 +79,10 @@ fun MainScreen(navController: NavHostController){
 
 @Composable
 fun ScreenContent(modifier: Modifier, navController: NavHostController){
-    val viewModel: MainViewModel = viewModel()
-    val data = viewModel.data
+    val context = LocalContext.current
+    val factory = ViewModelFactory(context)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
 
 
     if (data.isEmpty()){
