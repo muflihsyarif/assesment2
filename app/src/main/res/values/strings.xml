@@ -4,4 +4,6 @@
     <string name="x_diklik">%1$s diklik!</string>
     <string name="tambah_mimpi">tambah Dream Journal</string>
     <string name="belum_bisa">Belum bisa tambah dream journal.</string>
+    <string name="judul">Judul dream journal</string>
+    <string name="isi_mimpi">Isi dream journal</string>
 </resources>
