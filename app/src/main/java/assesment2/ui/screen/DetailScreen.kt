@@ -145,7 +145,8 @@ fun DetailScreen(navController: NavHostController, id: Long? = null){
 @Composable
 fun DeleteAction(delete: () -> Unit){
     var expanded by remember { mutableStateOf(false) }
-    IconButton(onClick = {}) {
+
+    IconButton(onClick = {expanded = true}) {
         Icon(
             imageVector = Icons.Filled.MoreVert,
             contentDescription = stringResource(R.string.lainnya),
@@ -205,7 +206,7 @@ fun FormMimpi(
         Column (
             modifier = Modifier
                 .padding(top = 16.dp)
-                .border(1.dp, Color.DarkGray, RoundedCornerShape(4.dp))
+                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
         ){
             pilihOption.forEach{ suasanaLabel ->
                 SuasanaOption(

@@ -1,7 +1,6 @@
 package assesment2.ui.screen
 
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -78,34 +77,32 @@ fun MainScreen(navController: NavHostController){
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier, navController: NavHostController){
+fun ScreenContent(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
     val factory = ViewModelFactory(context)
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
 
-
-    if (data.isEmpty()){
+    if (data.isEmpty()) {
         Column (
             modifier = modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(text = stringResource(id = R.string.list_kosong))
         }
+    } else {
         LazyColumn (
             modifier = modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 84.dp)
-        ){
-            items (data){
-                ListItem(mimpi = it){
+        ) {
+            items(data) {
+                ListItem(mimpi = it) {
                     navController.navigate(Screen.FormUbah.withId(it.id))
                 }
                 HorizontalDivider()
             }
         }
-    }else{
-
     }
 }
 
