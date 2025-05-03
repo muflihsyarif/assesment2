@@ -8,4 +8,5 @@
     <string name="kembali">Kembali</string>
     <string name="simpan">Simpan</string>
     <string name="edit_jurnal">Ubah Dream journal</string>
+    <string name="invalid">Judul dan isi Dream Journal tidak boleh kosong.</string>
 </resources>
