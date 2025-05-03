@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Assesment2</string>
+    <string name="app_name">Day Dream</string>
+    <string name="list_kosong">Belum ada data</string>
 </resources>
