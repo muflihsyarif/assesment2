@@ -3,7 +3,9 @@
     <string name="list_kosong">Belum ada data</string>
     <string name="x_diklik">%1$s diklik!</string>
     <string name="tambah_mimpi">tambah Dream Journal</string>
-    <string name="belum_bisa">Belum bisa tambah dream journal.</string>
     <string name="judul">Judul dream journal</string>
     <string name="isi_mimpi">Isi dream journal</string>
+    <string name="kembali">Kembali</string>
+    <string name="simpan">Simpan</string>
+    <string name="edit_jurnal">Ubah Dream journal</string>
 </resources>

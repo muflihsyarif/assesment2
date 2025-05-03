@@ -32,14 +32,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import assesment2.model.Mimpi
+import assesment2.navigation.Screen
 import assesment2.ui.theme.Assesment2Theme
 import com.muflihsyarif0023.assesment2.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(){
-    val context = LocalContext.current
+fun MainScreen(navController: NavHostController){
 
     Scaffold (
         topBar = {
@@ -56,7 +58,7 @@ fun MainScreen(){
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    Toast.makeText(context, R.string.belum_bisa, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.FormBaru.route)
                 }
             ) {
                 Icon(
@@ -67,16 +69,16 @@ fun MainScreen(){
             }
         }
     ){  innerPadding ->
-        ScreenContent(Modifier.padding(innerPadding))
+        ScreenContent(Modifier.padding(innerPadding), navController)
 
     }
 }
 
 @Composable
-fun ScreenContent(modifier: Modifier){
+fun ScreenContent(modifier: Modifier, navController: NavHostController){
     val viewModel: MainViewModel = viewModel()
     val data = viewModel.data
-    val context = LocalContext.current
+
 
     if (data.isEmpty()){
         Column (
@@ -92,8 +94,7 @@ fun ScreenContent(modifier: Modifier){
         ){
             items (data){
                 ListItem(mimpi = it){
-                    val pesan = context.getString(R.string.x_diklik, it.judul)
-                    Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.FormUbah.withId(it.id))
                 }
                 HorizontalDivider()
             }
@@ -127,18 +128,11 @@ fun ListItem(mimpi: Mimpi, onClick: () -> Unit){
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier){
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun ScreenPreview(){
     Assesment2Theme {
-        Greeting("android")
+        MainScreen(rememberNavController())
     }
 }
