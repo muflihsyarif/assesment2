@@ -21,4 +21,7 @@ interface MimpiDao {
 
     @Query("SELECT * FROM mimpi WHERE id = :id")
     suspend fun getMimpiByid(id: Long): Mimpi?
+
+    @Query("DELETE FROM mimpi WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }
