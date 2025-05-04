@@ -32,9 +32,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -55,7 +52,7 @@ import com.muflihsyarif0023.assesment2.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.d3ifmuhammadmuflihsyarif0023.mobpro1.util.SettingDataStore
+import assesment2.util.SettingDataStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

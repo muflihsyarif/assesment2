@@ -1,4 +1,4 @@
-package org.d3ifmuhammadmuflihsyarif0023.mobpro1.util
+package assesment2.util
 
 import android.content.Context
 import androidx.datastore.core.DataStore
