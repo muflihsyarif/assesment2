@@ -52,12 +52,16 @@ import assesment2.navigation.Screen
 import assesment2.ui.theme.Assesment2Theme
 import assesment2.util.ViewModelFactory
 import com.muflihsyarif0023.assesment2.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.d3ifmuhammadmuflihsyarif0023.mobpro1.util.SettingDataStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavHostController){
-
-    var showList by remember { mutableStateOf(true) }
+    val dataStore = SettingDataStore(LocalContext.current)
+    val showList by dataStore.layoutFlow.collectAsState(true)
 
     Scaffold (
         topBar = {
@@ -70,7 +74,11 @@ fun MainScreen(navController: NavHostController){
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 actions = {
-                    IconButton(onClick = {showList = !showList}) {
+                    IconButton(onClick = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            dataStore.saveLayout(!showList)
+                        }
+                    }) {
                         Icon(
                             painter = painterResource(
                                 if (showList) R.drawable.baseline_grid_view_24
