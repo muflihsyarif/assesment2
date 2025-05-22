@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import assesment2.model.Mimpi
 
-@Database(entities = [Mimpi::class], version = 2, exportSchema = false)
+@Database(entities = [Mimpi::class], version = 3, exportSchema = false)
 abstract class MimpiDb: RoomDatabase() {
 
     abstract val dao: MimpiDao

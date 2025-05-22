@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import assesment2.ui.screen.DetailScreen
 import assesment2.ui.screen.KEY_ID_CATATAN
 import assesment2.ui.screen.MainScreen
+import assesment2.ui.screen.RecycleScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController = rememberNavController()){
@@ -32,6 +33,10 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()){
             navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getLong(KEY_ID_CATATAN)
             DetailScreen(navController, id)
+        }
+        composable(route = Screen.Recycle.route,
+        ) {
+            RecycleScreen(navController)
         }
     }
 }

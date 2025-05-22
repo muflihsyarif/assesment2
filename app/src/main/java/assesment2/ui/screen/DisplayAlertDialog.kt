@@ -9,21 +9,24 @@ import com.muflihsyarif0023.assesment2.R
 
 @Composable
 fun DisplayAlertDialog(
+    openDialog: Boolean,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit
 ){
-    AlertDialog(
-        text = { Text(text = stringResource(R.string.pesan_hapus)) },
-        confirmButton = {
-            TextButton(onClick = {onConfirmation()}) {
-                Text(text = stringResource(R.string.tombol_hapus))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = {onDismissRequest() }) {
-                Text(text = stringResource(R.string.tombol_batal))
-            }
-        },
-        onDismissRequest = { onDismissRequest()}
-    )
+    if (openDialog){
+        AlertDialog(
+            text = { Text(text = stringResource(R.string.pesan_hapus)) },
+            confirmButton = {
+                TextButton(onClick = {onConfirmation()}) {
+                    Text(text = stringResource(R.string.tombol_hapus))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {onDismissRequest() }) {
+                    Text(text = stringResource(R.string.tombol_batal))
+                }
+            },
+            onDismissRequest = { onDismissRequest()}
+        )
+    }
 }

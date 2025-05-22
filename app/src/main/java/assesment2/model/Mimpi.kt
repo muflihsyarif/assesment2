@@ -10,5 +10,6 @@ data class Mimpi(
     val judul: String,
     val mimpi: String,
     val suasana: String,
-    val tanggal: String
+    val tanggal: String,
+    val isDeleted: Boolean = false
 )

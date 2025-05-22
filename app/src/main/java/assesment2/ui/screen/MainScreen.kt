@@ -1,6 +1,7 @@
 package assesment2.ui.screen
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,13 +16,13 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -47,28 +49,37 @@ import androidx.navigation.compose.rememberNavController
 import assesment2.model.Mimpi
 import assesment2.navigation.Screen
 import assesment2.ui.theme.Assesment2Theme
+import assesment2.util.SettingDataStore
 import assesment2.util.ViewModelFactory
 import com.muflihsyarif0023.assesment2.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import assesment2.util.SettingDataStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController){
+fun MainScreen (navController: NavHostController) {
     val dataStore = SettingDataStore(LocalContext.current)
     val showList by dataStore.layoutFlow.collectAsState(true)
+    Scaffold(
 
-    Scaffold (
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.kembali),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                },
                 title = {
-                    Text(text = stringResource(id = R.string.app_name))
+                    Text(text = stringResource(R.string.judul))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 actions = {
                     IconButton(onClick = {
@@ -88,10 +99,22 @@ fun MainScreen(navController: NavHostController){
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
+                    IconButton(onClick = {
+                        navController.navigate(Screen.Recycle.route)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = stringResource(R.string.tempat_sampah),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+
+
                 }
             )
         },
         floatingActionButton = {
+
             FloatingActionButton(
                 onClick = {
                     navController.navigate(Screen.FormBaru.route)
@@ -104,20 +127,21 @@ fun MainScreen(navController: NavHostController){
                 )
             }
         }
-    ){  innerPadding ->
+    ) { innerPadding ->
         ScreenContent(showList, Modifier.padding(innerPadding), navController)
-
     }
 }
 
 @Composable
-fun ScreenContent(showList: Boolean, modifier: Modifier, navController: NavHostController) {
+fun ScreenContent(showList: Boolean, modifier: Modifier = Modifier, navController: NavHostController) {
     val context = LocalContext.current
     val factory = ViewModelFactory(context)
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
+    val filteredData = data.filter { !it.isDeleted }
 
-    if (data.isEmpty()) {
+
+    if (filteredData.isEmpty()){
         Column (
             modifier = modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
@@ -125,29 +149,29 @@ fun ScreenContent(showList: Boolean, modifier: Modifier, navController: NavHostC
         ) {
             Text(text = stringResource(id = R.string.list_kosong))
         }
-    } else {
-        if (showList){
+    }
+    else{
+        if (showList) {
             LazyColumn (
                 modifier = modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 84.dp)
-            ) {
-                items(data) {
+            ){
+                items(filteredData) {
+                    Log.d("ROOM", it.isDeleted.toString())
                     ListItem(mimpi = it) {
                         navController.navigate(Screen.FormUbah.withId(it.id))
                     }
-                    HorizontalDivider()
                 }
             }
-        }
-        else{
-            LazyVerticalStaggeredGrid(
+        }else{
+            LazyVerticalStaggeredGrid (
                 modifier = modifier.fillMaxSize(),
                 columns = StaggeredGridCells.Fixed(2),
                 verticalItemSpacing = 8.dp,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp, 8.dp, 8.dp, 8.dp)
             ) {
-                items (data){
+                items(filteredData){
                     GridItem(mimpi = it) {
                         navController.navigate(Screen.FormUbah.withId(it.id))
                     }
@@ -171,11 +195,12 @@ fun ListItem(mimpi: Mimpi, onClick: () -> Unit){
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold
         )
+
         Text(
             text = mimpi.mimpi,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
-            )
+        )
         Text(text = mimpi.suasana)
         Text(text = mimpi.tanggal)
     }
@@ -188,24 +213,27 @@ fun GridItem(mimpi: Mimpi, onClick: () -> Unit){
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
-        border = BorderStroke(1.dp, DividerDefaults.color)
+        border = BorderStroke(1.dp, Color.Gray)
     ) {
         Column (
             modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ){
-            Text(text = mimpi.judul,
+            Text(
+                text = mimpi.judul,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold
-                )
-            Text(text = mimpi.mimpi,
+            )
+            Text(
+                text = mimpi.mimpi,
                 maxLines = 4,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(text = mimpi.suasana)
+            Text(
+                text = mimpi.suasana
+            )
             Text(text = mimpi.tanggal)
-
         }
     }
 }
@@ -213,8 +241,8 @@ fun GridItem(mimpi: Mimpi, onClick: () -> Unit){
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun ScreenPreview(){
+fun MainScreenPreview(){
     Assesment2Theme {
-        MainScreen(rememberNavController())
+       MainScreen(rememberNavController())
     }
 }
